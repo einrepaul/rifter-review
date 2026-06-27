@@ -7,7 +7,7 @@
 **Week 1–2**
 
 - [x] **GitHub repo setup** — Init Flutter project, add Flame dependency, configure .gitignore, branch strategy
-- [ ] **Project folder structure** — Screens, components, game worlds, assets, services
+- [x] **Project folder structure** — Screens, components, game worlds, assets, services
 - [ ] **Flame game loop scaffold** — FlameGame base, camera, world layers, game states
 
 ---

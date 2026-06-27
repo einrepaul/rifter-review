@@ -8,14 +8,14 @@
 
 - [x] **GitHub repo setup** — Init Flutter project, add Flame dependency, configure .gitignore, branch strategy
 - [x] **Project folder structure** — Screens, components, game worlds, assets, services
-- [ ] **Flame game loop scaffold** — FlameGame base, camera, world layers, game states
+- [x] **Flame game loop scaffold** — FlameGame base, camera, world layers, game states
 
 ---
 
 ## Phase 1 — Core mechanic: the Rift jump
 **Week 3–5**
 
-- [ ] **Player character (The Doctor variant)** — Sprite, movement, basic animations, touch controls
+- [x] **Player character (The Doctor variant)** — Sprite, movement, basic animations, touch controls
 - [ ] **Rift jump mechanic** — Portal trigger, screen transition, world swap system
 - [ ] **TARDIS hub screen** — Between-mission base, mission select, player stats
 

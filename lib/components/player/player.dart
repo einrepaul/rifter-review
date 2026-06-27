@@ -1,10 +1,11 @@
 import 'package:flame/components.dart';
+import 'package:flame/collisions.dart';
 import 'package:flame/input.dart';
-import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-class Player extends PositionComponent with KeyboardHandler, HasGameRef {
+class Player extends PositionComponent
+    with KeyboardHandler, HasGameRef, CollisionCallbacks {
   static const double speed = 150;
 
   final _velocity = Vector2.zero();
@@ -12,15 +13,12 @@ class Player extends PositionComponent with KeyboardHandler, HasGameRef {
   final JoystickComponent joystick;
 
   Player({required this.joystick})
-    : super(
-      size: Vector2(32, 32),
-      anchor: Anchor.center,
-    );
+    : super(size: Vector2(32, 32), anchor: Anchor.center);
 
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    // TODO: replace with actual Doctor sprite sheet
+    add(RectangleHitbox());
   }
 
   @override
@@ -65,10 +63,6 @@ class Player extends PositionComponent with KeyboardHandler, HasGameRef {
 
   @override
   void render(Canvas canvas) {
-    // TODO: replace with sprite rendering once assets are ready
-    canvas.drawRect(
-      size.toRect(),
-      Paint()..color = const Color(0xFF00E5FF),
-    );
+    canvas.drawRect(size.toRect(), Paint()..color = const Color(0xFF00E5FF));
   }
 }

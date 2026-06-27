@@ -16,7 +16,7 @@
 **Week 3–5**
 
 - [x] **Player character (The Doctor variant)** — Sprite, movement, basic animations, touch controls
-- [ ] **Rift jump mechanic** — Portal trigger, screen transition, world swap system
+- [x] **Rift jump mechanic** — Portal trigger, screen transition, world swap system
 - [ ] **TARDIS hub screen** — Between-mission base, mission select, player stats
 
 ---

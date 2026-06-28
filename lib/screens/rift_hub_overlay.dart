@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import '../rifter_game.dart';
 
-class TardisHubOverlay extends StatelessWidget {
+class RiftHubOverlay extends StatelessWidget {
   final RifterGame game;
 
-  const TardisHubOverlay({super.key, required this.game});
+  const RiftHubOverlay({super.key, required this.game});
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +49,7 @@ class TardisHubOverlay extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'TARDIS CONSOLE',
+              'RIFT HUB',
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 22,
@@ -58,7 +58,7 @@ class TardisHubOverlay extends StatelessWidget {
               ),
             ),
             Text(
-              'Rogue Time Lord - Dimension Rifter',
+              'Fragmented. Hunted. Searching.',
               style: TextStyle(
                 color: Color(0xFF7C3AED),
                 fontSize: 12,
@@ -178,7 +178,7 @@ class _UniverseData {
   final bool isUnlocked;
 
   _UniverseData({
-    required this.name, 
+    required this.name,
     required this.description,
     required this.color,
     required this.isUnlocked,

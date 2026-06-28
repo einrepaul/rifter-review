@@ -15,10 +15,10 @@ class RifterGame extends FlameGame with KeyboardEvents {
   late final JoystickComponent joystick;
   late ActionButton _actionButton;
   late final TardisButton _tardisButton;
-
   bool _nearRift = false;
   bool _isTransitioning = false;
   GameWorld _currentWorld = GameWorld.hub;
+
   static const String hubOverlay = 'tardisHub';
 
   @override
@@ -45,7 +45,6 @@ class RifterGame extends FlameGame with KeyboardEvents {
       onRiftEnter: _onRiftEnter,
       onRiftExit: _onRiftExit,
     );
-
     _pilotWorld = PilotWorld(
       joystick: joystick,
       onRiftEnter: _onRiftEnter,
@@ -60,9 +59,17 @@ class RifterGame extends FlameGame with KeyboardEvents {
     await add(camera);
 
     camera.viewport.add(joystick);
+
     _tardisButton = TardisButton(onPressed: openHubOverlay);
     camera.viewport.add(_tardisButton);
+
     camera.follow(_hubWorld.player);
+
+    pauseEngine();
+  }
+
+  void resumeFromMenu() {
+    resumeEngine();
   }
 
   void _onRiftEnter() {
@@ -81,6 +88,7 @@ class RifterGame extends FlameGame with KeyboardEvents {
   void _onActionPressed() {
     if (!_nearRift || _isTransitioning) return;
     _isTransitioning = true;
+
     if (_currentWorld == GameWorld.hub) {
       _jumpToPilotWorld();
     } else {
@@ -93,6 +101,7 @@ class RifterGame extends FlameGame with KeyboardEvents {
     camera.stop();
     camera.world = _pilotWorld;
     camera.follow(_pilotWorld.player);
+
     // Small delay before allowing rift interactions again
     Future.delayed(const Duration(milliseconds: 500), () {
       _isTransitioning = false;
@@ -106,6 +115,7 @@ class RifterGame extends FlameGame with KeyboardEvents {
     camera.stop();
     camera.world = _hubWorld;
     camera.follow(_hubWorld.player);
+
     Future.delayed(const Duration(milliseconds: 500), () {
       _isTransitioning = false;
       _nearRift = false;

@@ -1,7 +1,8 @@
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
 import 'rifter_game.dart';
-import 'screens/tardis_hub_overlay.dart';
+import 'screens/main_menu_overlay.dart';
+import 'screens/rift_hub_overlay.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -11,8 +12,10 @@ void main() {
   runApp(
     GameWidget<RifterGame>(
       game: game,
+      initialActiveOverlays: const ['mainMenu'],
       overlayBuilderMap: {
-        'tardisHub': (context, game) => TardisHubOverlay(game: game),  
+        'mainMenu': (context, game) => MainMenuOverlay(game: game),
+        'riftHub': (context, game) => RiftHubOverlay(game: game),  
       },
     ),
   );

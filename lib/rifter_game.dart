@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'worlds/hub/tardis_hub_world.dart';
 import 'worlds/pilot/pilot_world.dart';
 import 'components/hud/action_button.dart';
+import 'components/hud/tardis_button.dart';
 
 enum GameWorld { hub, pilot }
 
@@ -13,10 +14,12 @@ class RifterGame extends FlameGame with KeyboardEvents {
   late final PilotWorld _pilotWorld;
   late final JoystickComponent joystick;
   late ActionButton _actionButton;
+  late final TardisButton _tardisButton;
 
   bool _nearRift = false;
   bool _isTransitioning = false;
   GameWorld _currentWorld = GameWorld.hub;
+  static const String hubOverlay = 'tardisHub';
 
   @override
   Color backgroundColor() => const Color(0xFF0A0A0F);
@@ -57,6 +60,8 @@ class RifterGame extends FlameGame with KeyboardEvents {
     await add(camera);
 
     camera.viewport.add(joystick);
+    _tardisButton = TardisButton(onPressed: openHubOverlay);
+    camera.viewport.add(_tardisButton);
     camera.follow(_hubWorld.player);
   }
 
@@ -106,6 +111,16 @@ class RifterGame extends FlameGame with KeyboardEvents {
       _nearRift = false;
       _actionButton.removeFromParent();
     });
+  }
+
+  void openHubOverlay() {
+    pauseEngine();
+    overlays.add(hubOverlay);
+  }
+
+  void closeHubOverlay() {
+    overlays.remove(hubOverlay);
+    resumeEngine();
   }
 
   @override

@@ -17,7 +17,7 @@
 
 - [x] **Player character (The Doctor variant)** — Sprite, movement, basic animations, touch controls
 - [x] **Rift jump mechanic** — Portal trigger, screen transition, world swap system
-- [ ] **TARDIS hub screen** — Between-mission base, mission select, player stats
+- [x] **TARDIS hub screen** — Between-mission base, mission select, player stats
 
 ---
 

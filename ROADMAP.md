@@ -24,9 +24,10 @@
 ## Phase 2 — First universe: pilot chapter
 **Week 6–10**
 
-- [ ] **Choose pilot universe** — Pick one iconic show/film, map 3–5 plot-based missions
+- [x] **Choose pilot universe** — Harry Potter and the Sorcerer's Stone · 5 main missions + 9 side quests mapped across 4 acts
 - [ ] **World tilemap + art style** — Tiled map integration, environment assets, unique universe palette
 - [ ] **Mission system** — Objectives, completion states, NPC interactions, dialogue
+- [ ] **Collectibles system** — Tier 1 Universe Relics (world-specific lore/cosmetics) + Tier 2 Temporal Fragments (meta Doctor upgrades + origin story unlocks)
 
 ---
 
@@ -67,6 +68,65 @@
 | `main` | Stable builds only |
 | `dev` | Active development |
 | `feature/*` | One branch per phase or feature |
+
+## Collectibles system
+
+Two-tier design — universe-specific items + meta Doctor progression.
+
+### Tier 1 — Universe Relics
+Scattered across each world's open map. Found by exploring, completing side quests, or hidden in mission areas.
+
+| Effect type | Example (Harry Potter) |
+|---|---|
+| Codex / lore unlock | Hogwarts acceptance letter |
+| Cosmetic skin | House badge (Gryffindor, Slytherin, etc.) |
+| Story dialogue | Chocolate Frog card (famous witches/wizards) |
+
+### Tier 2 — Temporal Fragments
+Rarer. Hidden across ALL universes. Tied to the Doctor variant's personal arc.
+
+| Effect type | Example |
+|---|---|
+| Gameplay upgrade | TARDIS fuel cell → faster rift recharge |
+| New ability | Sonic screwdriver attachment → stun enemies |
+| Origin story unlock | Time crystal → reveals a chapter of your backstory |
+
+---
+
+## Pilot universe — Harry Potter and the Sorcerer's Stone
+
+### Act I — The Muggle World
+| Type | Mission | Gameplay |
+|---|---|---|
+| Main | The letter | Stealth |
+| Side | Dudley's birthday | Choice |
+| Side | Hut on the rock | Timed |
+
+### Act II — The Wizarding World
+| Type | Mission | Gameplay |
+|---|---|---|
+| Main | Diagon Alley | Exploration |
+| Side | Gringotts vault | Stealth |
+| Main | Platform 9¾ | Timed |
+| Side | Neville's toad | Exploration |
+
+### Act III — Hogwarts: First Term
+| Type | Mission | Gameplay |
+|---|---|---|
+| Side | The sorting hat | Choice |
+| Side | First flying lesson | Action |
+| Main | The troll | Combat |
+| Side | Quidditch match | Timed |
+| Side | Mirror of Erised | Stealth |
+
+### Act IV — The Philosopher's Stone
+| Type | Mission | Gameplay |
+|---|---|---|
+| Side | Norbert | Stealth |
+| Side | Forbidden forest | Survival |
+| Main | The stone | Puzzle + Combat |
+
+---
 
 ## Folder structure
 

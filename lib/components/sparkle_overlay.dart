@@ -29,13 +29,13 @@ const List<GlintPoint> kMainMenuGlints = [
 class SparkleOverlay extends StatefulWidget {
   final Widget child;
   final List<GlintPoint> glints;
-  
+
   final Color glintColor;
 
   final Widget? foreground;
 
   const SparkleOverlay({
-    super.key, 
+    super.key,
     required this.child,
     this.glints = kMainMenuGlints,
     this.glintColor = const Color(0xFFEAF4FF),
@@ -46,7 +46,8 @@ class SparkleOverlay extends StatefulWidget {
   State<SparkleOverlay> createState() => _SparkleOverlayState();
 }
 
-class _SparkleOverlayState extends State<SparkleOverlay> with TickerProviderStateMixin {
+class _SparkleOverlayState extends State<SparkleOverlay>
+    with TickerProviderStateMixin {
   late final List<_GlintController> _controllers;
 
   @override
@@ -103,17 +104,18 @@ class _GlintController {
     );
     _opacity = TweenSequence<double>([
       TweenSequenceItem(
-        tween: Tween(begin: 0.0, end: point.maxOpacity)
-        .chain(CurveTween(curve: Curves.easeOut)),
+        tween: Tween(
+          begin: 0.0,
+          end: point.maxOpacity,
+        ).chain(CurveTween(curve: Curves.easeOut)),
         weight: 35,
       ),
+      TweenSequenceItem(tween: ConstantTween(point.maxOpacity), weight: 15),
       TweenSequenceItem(
-        tween: ConstantTween(point.maxOpacity),
-        weight: 15,
-      ),
-      TweenSequenceItem(
-        tween: Tween(begin: point.maxOpacity, end: 0.0)
-        .chain(CurveTween(curve: Curves.easeIn)),
+        tween: Tween(
+          begin: point.maxOpacity,
+          end: 0.0,
+        ).chain(CurveTween(curve: Curves.easeIn)),
         weight: 50,
       ),
     ]).animate(_controller);
@@ -127,19 +129,17 @@ class _GlintController {
   }
 
   void _scheduleNextPulse({bool initial = false}) {
-    final delayMs = initial
-      ? rng.nextInt(4000)
-      : 1500 + rng.nextInt(5500);
+    final delayMs = initial ? rng.nextInt(4000) : 1500 + rng.nextInt(5500);
 
-      Future.delayed(Duration(milliseconds: delayMs), () {
-        if (!_controller.isAnimating) {
-          _controller.duration = _randomPulseDuration();
-          _controller.forward(from: 0).whenComplete(() {
-            _controller.reset();
-            _scheduleNextPulse();
-          });
-        }
-      });
+    Future.delayed(Duration(milliseconds: delayMs), () {
+      if (!_controller.isAnimating) {
+        _controller.duration = _randomPulseDuration();
+        _controller.forward(from: 0).whenComplete(() {
+          _controller.reset();
+          _scheduleNextPulse();
+        });
+      }
+    });
   }
 
   Widget build(Size size, Color color) {

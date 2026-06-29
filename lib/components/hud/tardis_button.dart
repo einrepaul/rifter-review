@@ -5,19 +5,17 @@ import 'package:flutter/material.dart';
 class TardisButton extends HudButtonComponent {
   TardisButton({required VoidCallback onPressed})
     : super(
-      button: _build(false),
-      buttonDown: _build(true),
-      margin: const EdgeInsets.only(right: 32, top: 48),
-      onPressed: onPressed,
-    );
+        button: _build(false),
+        buttonDown: _build(true),
+        margin: const EdgeInsets.only(right: 32, top: 48),
+        onPressed: onPressed,
+      );
 
   static PositionComponent _build(bool pressed) {
     return RectangleComponent(
       size: Vector2(52, 28),
       paint: Paint()
-        ..color = pressed
-          ? const Color(0xCCA78BFA)
-          : const Color(0x997C3AED),
+        ..color = pressed ? const Color(0xCCA78BFA) : const Color(0x997C3AED),
     )..add(
       TextComponent(
         text: 'TARDIS',

@@ -24,5 +24,8 @@ flutter:
   uses-material-design: true
   assets:
     - assets/images/main_menu_bg.png
+    - assets/images/panel_1_spark.png
+    - assets/images/panel_2_damaged_hub.png
+    - assets/images/panel_3_glitch.png
     - assets/audio/
     - assets/maps/

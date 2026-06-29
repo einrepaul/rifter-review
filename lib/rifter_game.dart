@@ -19,7 +19,7 @@ class RifterGame extends FlameGame with KeyboardEvents {
   bool _isTransitioning = false;
   GameWorld _currentWorld = GameWorld.hub;
 
-  static const String hubOverlay = 'tardisHub';
+  static const String hubOverlay = 'riftHub';
 
   @override
   Color backgroundColor() => const Color(0xFF0A0A0F);

@@ -15,6 +15,7 @@ class CutsceneBeat {
   final int? durationMs;
   final String? panelAsset;
   final String? sfxKey;
+  final String? voKey;
   final String? effectKey;
   bool get waitForTap => durationMs == null;
 
@@ -25,6 +26,7 @@ class CutsceneBeat {
     this.durationMs,
     this.panelAsset,
     this.sfxKey,
+    this.voKey,
     this.effectKey,
   }) : assert(
          durationMs != null ||

@@ -7,6 +7,7 @@ const List<CutsceneBeat> arrivalScene = [
     type: BeatType.voiceover,
     speaker: 'RIFTER',
     text: 'Not again. Not now-',
+    voKey: 'vo_01_not_again',
   ),
 
   CutsceneBeat(
@@ -34,6 +35,7 @@ const List<CutsceneBeat> arrivalScene = [
     type: BeatType.dialogue,
     speaker: 'RIFTER',
     text: '...Still in one piece. Mostly.',
+    voKey: 'vo_02_one_piece',
   ),
 
   CutsceneBeat(type: BeatType.effect, durationMs: 500, effectKey: 'glitch'),
@@ -42,6 +44,7 @@ const List<CutsceneBeat> arrivalScene = [
     type: BeatType.dialogue,
     speaker: 'RIFTER',
     text: 'I don\'t know who did this to me. Don\'t remember enough to guess.',
+    voKey: 'vo_03_dont_know',
   ),
 
   CutsceneBeat(
@@ -54,6 +57,7 @@ const List<CutsceneBeat> arrivalScene = [
     type: BeatType.dialogue,
     speaker: 'RIFTER',
     text: 'But I remember enough to know I\'m not whole.',
+    voKey: 'vo_04_not_whole',
   ),
 
   CutsceneBeat(

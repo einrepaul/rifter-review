@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:audioplayers/audioplayers.dart';
 import 'cutscene_beat.dart';
 import 'arrival_scene.dart';
 
@@ -26,17 +27,24 @@ class _ArrivalCutsceneState extends State<ArrivalCutscene>
   bool _glitchActive = false;
   bool _lightsUpActive = false;
 
+  final AudioPlayer _voPlayer = AudioPlayer();
+  bool _voPlaying = false;
+
   CutsceneBeat get _currentBeat => arrivalScene[_beatIndex];
 
   @override
   void initState() {
     super.initState();
+    _voPlayer.onPlayerComplete.listen((_) {
+      if (mounted) setState(() => _voPlaying = false);
+    });
     _runBeat(_beatIndex);
   }
 
   @override
   void dispose() {
     _beatTimer?.cancel();
+    _voPlayer.dispose();
     super.dispose();
   }
 
@@ -44,6 +52,10 @@ class _ArrivalCutsceneState extends State<ArrivalCutscene>
     if (index >= arrivalScene.length) return;
 
     final beat = arrivalScene[index];
+
+    if (beat.voKey != null) {
+      _playVo(beat.voKey!);
+    }
 
     if (beat.effectKey != null) {
       _triggerEffect(beat.effectKey!);
@@ -59,6 +71,11 @@ class _ArrivalCutsceneState extends State<ArrivalCutscene>
         _advanceBeat,
       );
     }
+  }
+
+  void _playVo(String voKey) {
+    setState(() => _voPlaying = true);
+    _voPlayer.play(AssetSource('audio/vo/$voKey.mp3'));
   }
 
   void _advanceBeat() {
@@ -79,6 +96,7 @@ class _ArrivalCutsceneState extends State<ArrivalCutscene>
   }
 
   void _onTap() {
+    if (_voPlaying) return;
     if (!_currentBeat.waitForTap) return;
     _advanceBeat();
   }

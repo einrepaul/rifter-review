@@ -28,6 +28,7 @@ class _ArrivalCutsceneState extends State<ArrivalCutscene>
   bool _lightsUpActive = false;
 
   final AudioPlayer _voPlayer = AudioPlayer();
+  final AudioPlayer _sfxPlayer = AudioPlayer();
   bool _voPlaying = false;
 
   CutsceneBeat get _currentBeat => arrivalScene[_beatIndex];
@@ -36,7 +37,13 @@ class _ArrivalCutsceneState extends State<ArrivalCutscene>
   void initState() {
     super.initState();
     _voPlayer.onPlayerComplete.listen((_) {
-      if (mounted) setState(() => _voPlaying = false);
+      if (mounted) return;
+      setState(() => _voPlaying = false);
+      Future.delayed(const Duration(milliseconds: 600), () {
+        if (mounted && _beatIndex < arrivalScene.length) {
+          _advanceBeat();
+        }
+      });
     });
     _runBeat(_beatIndex);
   }
@@ -45,6 +52,7 @@ class _ArrivalCutsceneState extends State<ArrivalCutscene>
   void dispose() {
     _beatTimer?.cancel();
     _voPlayer.dispose();
+    _sfxPlayer.dispose();
     super.dispose();
   }
 
@@ -55,6 +63,10 @@ class _ArrivalCutsceneState extends State<ArrivalCutscene>
 
     if (beat.voKey != null) {
       _playVo(beat.voKey!);
+    }
+
+    if (beat.sfxKey != null) {
+      _sfxPlayer.play(AssetSource('audio/sfx/${beat.sfxKey}.mp3'));
     }
 
     if (beat.effectKey != null) {

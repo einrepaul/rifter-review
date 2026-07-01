@@ -62,12 +62,10 @@ class _ArrivalCutsceneState extends State<ArrivalCutscene>
     final beat = arrivalScene[index];
 
     if (beat.voKey != null) {
-      _fadeOutSfx();
       _playVo(beat.voKey!);
     }
 
     if (beat.sfxKey != null) {
-      _sfxPlayer.setVolume(1.0);
       _sfxPlayer.play(AssetSource('audio/sfx/${beat.sfxKey}.mp3'));
     }
 
@@ -85,22 +83,6 @@ class _ArrivalCutsceneState extends State<ArrivalCutscene>
         _advanceBeat,
       );
     }
-  }
-
-  void _fadeOutSfx({Duration duration = const Duration(milliseconds: 800)}) {
-    const steps = 16;
-    final stepDuration = duration ~/ steps;
-    var step = 0;
-    Timer.periodic(stepDuration, (timer) {
-      step++;
-      final volume = (1.0 - step / steps).clamp(0.0, 1.0);
-      _sfxPlayer.setVolume(volume);
-      if (step >= steps) {
-        timer.cancel();
-        _sfxPlayer.stop();
-        _sfxPlayer.setVolume(1.0); 
-      }
-    });
   }
 
   void _playVo(String voKey) {

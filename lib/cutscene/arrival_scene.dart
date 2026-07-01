@@ -64,6 +64,7 @@ const List<CutsceneBeat> arrivalScene = [
     type: BeatType.dialogue,
     speaker: 'RIFTER',
     text: 'And something out there-',
+    voKey: 'vo_05_something',
   ),
 
   CutsceneBeat(type: BeatType.pause, durationMs: 2000),

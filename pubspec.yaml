@@ -28,7 +28,14 @@ flutter:
     - assets/images/panel_2_damaged_hub.png
     - assets/images/panel_3_glitch.png
     - assets/audio/vo/vo_01_not_again.mp3
+    - assets/audio/vo/vo_02_one_piece.mp3
+    - assets/audio/vo/vo_03_dont_know.mp3
+    - assets/audio/vo/vo_04_not_whole.mp3
+    - assets/audio/vo/vo_05_something.mp3
+    - assets/audio/sfx/amb_hub_drone.wav
     - assets/audio/sfx/sfx_whine.mp3
     - assets/audio/sfx/sfx_smoke_crackle.mp3
     - assets/audio/sfx/sfx_spark.mp3
+    - assets/audio/sfx/sfx_materialize.mp3
+    - assets/audio/sfx/sfx_power_up.mp3
     - assets/maps/

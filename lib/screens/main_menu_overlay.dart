@@ -34,90 +34,90 @@ class MainMenuOverlay extends StatelessWidget {
   }
 
   @override
-Widget build(BuildContext context) {
-  final isLandscape =
-      MediaQuery.of(context).orientation == Orientation.landscape;
+  Widget build(BuildContext context) {
+    final isLandscape =
+        MediaQuery.of(context).orientation == Orientation.landscape;
 
-  return Scaffold(
-    backgroundColor: Colors.black,
-    body: SparkleOverlay(
-      glints: kMainMenuGlints,
-      child: Image.asset('assets/images/main_menu_bg.png', fit: BoxFit.cover),
-      foreground: SafeArea(
-        child: Column(
-          children: [
-            SizedBox(height: isLandscape ? 20 : 56),
-            Text(
-              'RIFTER',
-              style: TextStyle(
-                color: _amber,
-                fontSize: isLandscape ? 32 : 48,
-                fontWeight: FontWeight.w300,
-                letterSpacing: 12,
+    return Scaffold(
+      backgroundColor: Colors.black,
+      body: SparkleOverlay(
+        glints: kMainMenuGlints,
+        child: Image.asset('assets/images/main_menu_bg.png', fit: BoxFit.cover),
+        foreground: SafeArea(
+          child: Column(
+            children: [
+              SizedBox(height: isLandscape ? 20 : 56),
+              Text(
+                'RIFTER',
+                style: TextStyle(
+                  color: _amber,
+                  fontSize: isLandscape ? 32 : 48,
+                  fontWeight: FontWeight.w300,
+                  letterSpacing: 12,
+                ),
               ),
-            ),
-            const SizedBox(height: 12),
-            const Text(
-              'A MARQUEE STUDIOS GAME',
-              style: TextStyle(
-                color: Colors.white70,
-                fontSize: 12,
-                letterSpacing: 4,
-                fontWeight: FontWeight.w500,
+              const SizedBox(height: 12),
+              const Text(
+                'A MARQUEE STUDIOS GAME',
+                style: TextStyle(
+                  color: Colors.white70,
+                  fontSize: 12,
+                  letterSpacing: 4,
+                  fontWeight: FontWeight.w500,
+                ),
               ),
-            ),
-            const Spacer(),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 28),
-              child: Center(
-                child: ConstrainedBox(
-                  constraints: const BoxConstraints(maxWidth: 480),
-                  child: Column(
-                    children: [
-                      _MenuButton(
-                        label: 'NEW GAME',
-                        enabled: true,
-                        emphasized: true,
-                        onTap: _onNewGame,
-                      ),
-                      SizedBox(height: isLandscape ? 8 : 14),
-                      _MenuButton(
-                        label: 'CONTINUE',
-                        enabled: _hasSave,
-                        onTap: _hasSave ? _onContinue : null,
-                      ),
-                      SizedBox(height: isLandscape ? 8 : 14),
-                      _MenuButton(
-                        label: 'SETTINGS',
-                        enabled: true,
-                        onTap: _onSettings,
-                      ),
-                    ],
+              const Spacer(),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 28),
+                child: Center(
+                  child: ConstrainedBox(
+                    constraints: const BoxConstraints(maxWidth: 480),
+                    child: Column(
+                      children: [
+                        _MenuButton(
+                          label: 'NEW GAME',
+                          enabled: true,
+                          emphasized: true,
+                          onTap: _onNewGame,
+                        ),
+                        SizedBox(height: isLandscape ? 8 : 14),
+                        _MenuButton(
+                          label: 'CONTINUE',
+                          enabled: _hasSave,
+                          onTap: _hasSave ? _onContinue : null,
+                        ),
+                        SizedBox(height: isLandscape ? 8 : 14),
+                        _MenuButton(
+                          label: 'SETTINGS',
+                          enabled: true,
+                          onTap: _onSettings,
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
-            ),
-            SizedBox(height: isLandscape ? 8 : 24),
-            Padding(
-              padding: const EdgeInsets.only(right: 16, bottom: 8),
-              child: Align(
-                alignment: Alignment.centerRight,
-                child: Text(
-                  'build 0.0.1 - pilot',
-                  style: TextStyle(
-                    color: Colors.white.withValues(alpha: 0.35),
-                    fontSize: 11,
-                    letterSpacing: 1,
+              SizedBox(height: isLandscape ? 8 : 24),
+              Padding(
+                padding: const EdgeInsets.only(right: 16, bottom: 8),
+                child: Align(
+                  alignment: Alignment.centerRight,
+                  child: Text(
+                    'build 0.0.1 - pilot',
+                    style: TextStyle(
+                      color: Colors.white.withValues(alpha: 0.35),
+                      fontSize: 11,
+                      letterSpacing: 1,
+                    ),
                   ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
-    ),
-  );
-}
+    );
+  }
 }
 
 class _MenuButton extends StatelessWidget {

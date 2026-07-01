@@ -59,10 +59,7 @@ class RiftHubOverlay extends StatelessWidget {
             ),
             Text(
               'Fragmented. Hunted. Searching.',
-              style: TextStyle(
-                color: Color(0xFF7C3AED),
-                fontSize: 12,
-              ),
+              style: TextStyle(color: Color(0xFF7C3AED), fontSize: 12),
             ),
           ],
         ),
@@ -74,11 +71,7 @@ class RiftHubOverlay extends StatelessWidget {
               border: Border.all(color: const Color(0xFF7C3AED)),
               borderRadius: BorderRadius.circular(8),
             ),
-            child: const Icon(
-              Icons.close,
-              color: Color(0xFFC73AED),
-              size: 20,
-            ),
+            child: const Icon(Icons.close, color: Color(0xFFC73AED), size: 20),
           ),
         ),
       ],
@@ -132,8 +125,8 @@ class RiftHubOverlay extends StatelessWidget {
       itemBuilder: (context, index) => _UniverseCard(
         data: universes[index],
         onTap: universes[index].isUnlocked
-          ? () => game.closeHubOverlay()
-          : null,
+            ? () => game.closeHubOverlay()
+            : null,
       ),
     );
   }
@@ -199,9 +192,7 @@ class _UniverseCard extends StatelessWidget {
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
           border: Border.all(
-            color: data.isUnlocked
-              ? data.color
-              : const Color(0xFF1E1E3F),
+            color: data.isUnlocked ? data.color : const Color(0xFF1E1E3F),
           ),
           borderRadius: BorderRadius.circular(12),
           color: const Color(0xFF0D0D2B),
@@ -213,7 +204,7 @@ class _UniverseCard extends StatelessWidget {
               height: 40,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: data.color.withValues(alpha:0.2),
+                color: data.color.withValues(alpha: 0.2),
                 border: Border.all(color: data.color),
               ),
               child: Icon(
@@ -231,10 +222,10 @@ class _UniverseCard extends StatelessWidget {
                     data.name,
                     style: TextStyle(
                       color: data.isUnlocked
-                        ? Colors.white
-                        : const Color(0xFF6B7280),
-                        fontSize: 14,
-                        fontWeight: FontWeight.w600,
+                          ? Colors.white
+                          : const Color(0xFF6B7280),
+                      fontSize: 14,
+                      fontWeight: FontWeight.w600,
                     ),
                   ),
                   const SizedBox(height: 4),
@@ -249,10 +240,7 @@ class _UniverseCard extends StatelessWidget {
               ),
             ),
             if (data.isUnlocked)
-            const Icon(
-              Icons.chevron_right,
-              color: Color(0xFF7C3AED),
-            ),
+              const Icon(Icons.chevron_right, color: Color(0xFF7C3AED)),
           ],
         ),
       ),

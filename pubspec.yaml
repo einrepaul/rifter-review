@@ -29,4 +29,6 @@ flutter:
     - assets/images/panel_3_glitch.png
     - assets/audio/vo/vo_01_not_again.mp3
     - assets/audio/sfx/sfx_whine.mp3
+    - assets/audio/sfx/sfx_smoke_crackle.mp3
+    - assets/audio/sfx/sfx_spark.mp3
     - assets/maps/

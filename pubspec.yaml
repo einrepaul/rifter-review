@@ -1,0 +1,43 @@
+name: rifter
+description: A dimension-hopping action RPG by Marquee Studios.
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: 3.10.8
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flame: 1.18.0
+  flame_tiled: 1.18.0
+  audioplayers: 6.0.0
+  shared_preferences: 2.2.3
+  cupertino_icons: 1.0.8
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: 6.0.0
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/images/main_menu_bg.png
+    - assets/images/panel_1_spark.png
+    - assets/images/panel_2_damaged_hub.png
+    - assets/images/panel_3_glitch.png
+    - assets/images/concept_tardis_hub-3.png
+    - assets/audio/vo/vo_01_not_again.mp3
+    - assets/audio/vo/vo_02_one_piece.mp3
+    - assets/audio/vo/vo_03_dont_know.mp3
+    - assets/audio/vo/vo_04_not_whole.mp3
+    - assets/audio/vo/vo_05_something.mp3
+    - assets/audio/sfx/amb_hub_drone.wav
+    - assets/audio/sfx/sfx_whine.mp3
+    - assets/audio/sfx/sfx_smoke_crackle.mp3
+    - assets/audio/sfx/sfx_spark.mp3
+    - assets/audio/sfx/sfx_materialize.mp3
+    - assets/audio/sfx/sfx_power_up.mp3
+    - assets/maps/
+    - assets/tiles/tardis_hub_art.tmx

@@ -1,0 +1,80 @@
+import 'package:flame/components.dart';
+import 'package:flame/game.dart';
+import 'package:flame/input.dart';
+import 'package:flame/collisions.dart';
+import 'package:flame_tiled/flame_tiled.dart';
+import 'package:flutter/material.dart';
+import '../../components/player/player.dart';
+import '../../components/rift_portal/rift_portal.dart';
+
+class TardisHubWorld extends World with HasGameRef, HasCollisionDetection {
+  late final Player _player;
+  final JoystickComponent joystick;
+  final VoidCallback onRiftEnter;
+  final VoidCallback onRiftExit;
+
+  TardisHubWorld({
+    required this.joystick,
+    required this.onRiftEnter,
+    required this.onRiftExit,
+  });
+
+  @override
+  Future<void> onLoad() async {
+    await super.onLoad();
+
+    // Painted hub background + collision/trigger objects
+    final tiledMap = await TiledComponent.load(
+      'tardis_hub_art.tmx',
+      Vector2.all(32),
+      prefix: 'assets/tiles/',
+    );
+    add(tiledMap);
+
+    _player = Player(joystick: joystick);
+
+    final objectGroup = tiledMap.tileMap.getLayer<ObjectGroup>('Object Layer 1');
+    for (final obj in objectGroup?.objects ?? <TiledObject>[]) {
+      final pos = Vector2(obj.x, obj.y);
+      final size = Vector2(obj.width, obj.height);
+
+      switch (obj.name) {
+        case 'spawn_point':
+          _player.position = pos;
+          break;
+        case 'console_interact':
+          //add(ConsoleInteractTrigger(position: pos, size: size));
+          break;
+        case 'console_collision':
+        case 'wall_collision_left':
+        case 'wall_collision_right':
+        case 'wall_collision_top':
+          add(StaticCollider(position: pos, size: size));
+          break;
+        case 'panel_scanner':
+        case 'panel_sonic':
+          //add(FlavorInteractTrigger(name: obj.name, position: pos, size: size));
+          break;
+      }
+    }
+
+    add(_player);
+
+    add(
+      RiftPortal(
+        position: Vector2(0, -150),
+        onPlayerNearby: onRiftEnter,
+        onPlayerLeft: onRiftExit,
+      ),
+    );
+  }
+
+  Player get player => _player;
+}
+
+class StaticCollider extends PositionComponent {
+  StaticCollider({required Vector2 position, required Vector2 size})
+      : super(position: position, size: size) {
+    add(RectangleHitbox()..collisionType = CollisionType.passive);
+  }
+}

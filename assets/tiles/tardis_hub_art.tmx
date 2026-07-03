@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.10" tiledversion="1.12.2" orientation="orthogonal" renderorder="right-down" width="44" height="24" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="20">
+ <imagelayer id="2" name="Image Layer 1">
+  <image source="../images/concept_tardis_hub-3.png" width="1408" height="768"/>
+ </imagelayer>
+ <objectgroup id="3" name="Object Layer 1">
+  <object id="9" name="spawn_point" x="652.4" y="621.799" width="100" height="100" visible="0"/>
+  <object id="10" name="console_interact" x="562.6" y="286.999" width="280" height="220" visible="0"/>
+  <object id="14" name="console_collision" x="600" y="298.799" width="215.601" height="191.201" visible="0"/>
+  <object id="15" name="panel_scanner" x="555" y="0" width="300" height="145.601" visible="0"/>
+  <object id="16" name="panel_sonic" x="230" y="300" width="110" height="160" visible="0"/>
+  <object id="17" name="wall_collision_left" x="0" y="0" width="200" height="768" visible="0"/>
+  <object id="18" name="wall_collision_right" x="1208" y="0" width="200" height="768" visible="0"/>
+  <object id="19" name="wall_collision_top" x="0" y="0" width="1408" height="140" visible="0"/>
+ </objectgroup>
+</map>

@@ -38,7 +38,11 @@ class PilotWorld extends World with HasGameRef, HasCollisionDetection {
       ),
     );
 
-    _player = Player(joystick: joystick)..position = Vector2.zero();
+    _player = Player(
+      joystick: joystick,
+      minBounds: Vector2(-500, -500),
+      maxBounds: Vector2(500, 500),
+    )..position = Vector2.zero();
     add(_player);
   }
 

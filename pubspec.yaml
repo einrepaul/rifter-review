@@ -28,6 +28,9 @@ flutter:
     - assets/images/panel_2_damaged_hub.png
     - assets/images/panel_3_glitch.png
     - assets/images/concept_tardis_hub-3.png
+    - assets/images/concept_tardis_hub_damaged.png
+    - assets/images/doctor_spritesheet.png
+    - assets/images/rifter_spritesheet.png
     - assets/audio/vo/vo_01_not_again.mp3
     - assets/audio/vo/vo_02_one_piece.mp3
     - assets/audio/vo/vo_03_dont_know.mp3

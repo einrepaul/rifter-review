@@ -18,6 +18,9 @@ class TardisHubWorld extends World with HasGameRef, HasCollisionDetection {
   final Completer<void> _loaded = Completer<void>();
   Future<void> get loaded => _loaded.future;
 
+  static final Vector2 mapSize = Vector2(1408, 768);
+  static const double _wallThickness = 32;
+
   TardisHubWorld({
     required this.joystick,
     required this.onRiftEnter,
@@ -36,12 +39,17 @@ class TardisHubWorld extends World with HasGameRef, HasCollisionDetection {
     );
     tiledMap.tileMap.getLayer<ObjectGroup>('Object Layer 1')?.visible = false;
     final bg = SpriteComponent()
-      ..sprite = await Sprite.load('concept_tardis_hub-3.png')
+      ..sprite = await Sprite.load('concept_tardis_hub_damaged.png')
       ..size = Vector2(1408, 768)
       ..position = Vector2.zero();
     add(bg);
 
-    _player = Player(joystick: joystick);
+    _player = Player(
+      joystick: joystick,
+      minBounds: Vector2.zero(),
+      maxBounds: mapSize,
+    );
+    _addBoundaryWalls();
 
     final objectGroup = tiledMap.tileMap.getLayer<ObjectGroup>(
       'Object Layer 1',
@@ -80,6 +88,31 @@ class TardisHubWorld extends World with HasGameRef, HasCollisionDetection {
   }
 
   Player get player => _player;
+
+  void _addBoundaryWalls() {
+    addAll([
+      StaticCollider(
+        // top
+        position: Vector2(-_wallThickness, -_wallThickness),
+        size: Vector2(mapSize.x + _wallThickness * 2, _wallThickness),
+      ),
+      StaticCollider(
+        // bottom
+        position: Vector2(-_wallThickness, mapSize.y),
+        size: Vector2(mapSize.x + _wallThickness * 2, _wallThickness),
+      ),
+      StaticCollider(
+        // left
+        position: Vector2(-_wallThickness, -_wallThickness),
+        size: Vector2(_wallThickness, mapSize.y + _wallThickness * 2),
+      ),
+      StaticCollider(
+        // right
+        position: Vector2(mapSize.x, -_wallThickness),
+        size: Vector2(_wallThickness, mapSize.y + _wallThickness * 2),
+      ),
+    ]);
+  }
 }
 
 class StaticCollider extends PositionComponent {

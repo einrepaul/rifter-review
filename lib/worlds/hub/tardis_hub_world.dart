@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flame/components.dart';
 import 'package:flame/game.dart';
 import 'package:flame/input.dart';
@@ -12,6 +13,10 @@ class TardisHubWorld extends World with HasGameRef, HasCollisionDetection {
   final JoystickComponent joystick;
   final VoidCallback onRiftEnter;
   final VoidCallback onRiftExit;
+  late final TiledComponent tiledMap;
+
+  final Completer<void> _loaded = Completer<void>();
+  Future<void> get loaded => _loaded.future;
 
   TardisHubWorld({
     required this.joystick,
@@ -24,24 +29,28 @@ class TardisHubWorld extends World with HasGameRef, HasCollisionDetection {
     await super.onLoad();
 
     // Painted hub background + collision/trigger objects
-    final tiledMap = await TiledComponent.load(
+    tiledMap = await TiledComponent.load(
       'tardis_hub_art.tmx',
       Vector2.all(32),
       prefix: 'assets/tiles/',
     );
-    add(tiledMap);
+    tiledMap.tileMap.getLayer<ObjectGroup>('Object Layer 1')?.visible = false;
+    final bg = SpriteComponent()
+      ..sprite = await Sprite.load('concept_tardis_hub-3.png')
+      ..size = Vector2(1408, 768)
+      ..position = Vector2.zero();
+    add(bg);
 
     _player = Player(joystick: joystick);
 
-    final objectGroup = tiledMap.tileMap.getLayer<ObjectGroup>('Object Layer 1');
+    final objectGroup = tiledMap.tileMap.getLayer<ObjectGroup>(
+      'Object Layer 1',
+    );
     for (final obj in objectGroup?.objects ?? <TiledObject>[]) {
       final pos = Vector2(obj.x, obj.y);
       final size = Vector2(obj.width, obj.height);
 
       switch (obj.name) {
-        case 'spawn_point':
-          _player.position = pos;
-          break;
         case 'console_interact':
           //add(ConsoleInteractTrigger(position: pos, size: size));
           break;
@@ -59,6 +68,7 @@ class TardisHubWorld extends World with HasGameRef, HasCollisionDetection {
     }
 
     add(_player);
+    _loaded.complete();
 
     add(
       RiftPortal(
@@ -74,7 +84,7 @@ class TardisHubWorld extends World with HasGameRef, HasCollisionDetection {
 
 class StaticCollider extends PositionComponent {
   StaticCollider({required Vector2 position, required Vector2 size})
-      : super(position: position, size: size) {
+    : super(position: position, size: size) {
     add(RectangleHitbox()..collisionType = CollisionType.passive);
   }
 }

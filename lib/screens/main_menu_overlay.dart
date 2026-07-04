@@ -1,42 +1,62 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../components/sparkle_overlay.dart';
 import '../rifter_game.dart';
 
-class MainMenuOverlay extends StatelessWidget {
+class MainMenuOverlay extends StatefulWidget {
   final RifterGame game;
 
   const MainMenuOverlay({super.key, required this.game});
 
-  static const _amber = Color(0xFFE8B45A);
-  static const _dimGrey = Color(0xFF6B7480);
+  @override
+  State<MainMenuOverlay> createState() => _MainMenuOverlayState();
+}
 
-  bool get _hasSave => false;
+class _MainMenuOverlayState extends State<MainMenuOverlay> {
+  static const _amber = Color(0xFFE8B45A);
+
+  bool _introPlayed = false;
+  bool _hasSave = false;
+  bool _prefsLoaded = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadPrefs();
+  }
+
+  Future<void> _loadPrefs() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _introPlayed = prefs.getBool('intro_played') ?? false;
+      _hasSave = prefs.getBool('save_exists') ?? false;
+      _prefsLoaded = true;
+    });
+  }
 
   void _onNewGame() {
-    const introPlayed = false;
-
-    game.overlays.remove('mainMenu');
-
-    if (!introPlayed) {
-      game.overlays.add('arrivalCutScene');
-    } else {
-      game.overlays.add('riftHub');
-    }
+    widget.game.overlays.remove('mainMenu');
+    widget.game.overlays.add('arrivalCutScene');
   }
 
   void _onContinue() {
-    game.overlays.remove('mainMenu');
-    game.overlays.add('riftHub');
+    widget.game.overlays.remove('mainMenu');
+    widget.game.resumeEngine();
   }
 
   void _onSettings() {
-    game.overlays.add('settings');
+    widget.game.overlays.add('settings');
   }
 
   @override
   Widget build(BuildContext context) {
     final isLandscape =
         MediaQuery.of(context).orientation == Orientation.landscape;
+
+    // Wait for prefs before rendering buttons to avoid flicker on Continue state
+    if (!_prefsLoaded) {
+      return const Scaffold(backgroundColor: Colors.black);
+    }
 
     return Scaffold(
       backgroundColor: Colors.black,

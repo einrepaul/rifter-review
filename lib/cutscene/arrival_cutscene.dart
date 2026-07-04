@@ -6,34 +6,18 @@ import 'arrival_scene.dart';
 
 typedef OnCutSceneComplete = void Function();
 
-/// Invalidated whenever the cutscene moves past the beat that created it.
-/// Any async callback (VO complete, VO fallback timer, VO error, breath
-/// delay) captures its beat's token and checks `isValid` before acting,
-/// so stale callbacks from a previous beat are silently ignored instead
-/// of needing a hand-rolled `if (token != _beatToken) return` copied at
-/// every call site (that duplication is what let the double-advance race
-/// slip through last time).
 class _BeatToken {
   bool _valid = true;
   bool get isValid => _valid;
   void _invalidate() => _valid = false;
 }
 
-/// What the current beat is doing right now. Replaces the old
-/// `_voPlaying` + `_advancedThisBeat` pair of independent bools, which
-/// could in principle disagree with each other.
 enum _BeatPhase {
-  playingVo, // VO/duration timer running; tap does nothing yet
-  waitingForTap, // beat finished producing audio, holding for input
-  advanced, // _advanceBeat already ran for this beat; further calls no-op
+  playingVo,
+  waitingForTap,
+  advanced,
 }
 
-/// Two AudioPlayer instances that trade off which one is "live", so a new
-/// sound can start on the idle one while the previously-active one fades
-/// out — shared shape between the SFX crossfade and the ambient loop
-/// chain, which both need "two players, one active at a time" but fade
-/// differently (SFX: new sound at full volume instantly, old one fades
-/// out; ambient loop: both fade across each other symmetrically).
 class _AlternatingPlayers {
   final AudioPlayer a = AudioPlayer();
   final AudioPlayer b = AudioPlayer();
@@ -76,13 +60,16 @@ class _ArrivalCutsceneState extends State<ArrivalCutscene> {
   double _incomingOpacity = 0.0;
 
   // Effect key -> auto-clear duration. null means "persists once triggered".
-  // Adding a new effect (screen shake, sprite fade-in, ...) means adding
-  // one entry here, not a new bool field + a new Future.delayed block.
   static const _effectDurations = <String, Duration?>{
     'glitch': Duration(milliseconds: 100),
-    'lights_up': null,
+    'lights_up': null,       // persists — room stays lit
+    'console_pulse': null,   // managed manually via _consolePulseStep
   };
   final Set<String> _activeEffects = {};
+
+  // console_pulse drives a 3-flash sequence via step counter
+  int _consolePulseStep = 0;
+  Timer? _consolePulseTimer;
 
   final AudioPlayer _voPlayer = AudioPlayer();
 
@@ -95,8 +82,7 @@ class _ArrivalCutsceneState extends State<ArrivalCutscene> {
   Timer? _ambientDuckFadeTimer;
   Timer? _ambientLoopTimer;
   Timer? _ambientLoopFadeTimer;
-  double _ambientVolume =
-      0.0; // audioplayers has no getVolume(); tracked ourselves
+  double _ambientVolume = 0.0;
   static const _ambientAsset = 'audio/sfx/amb_hub_drone.wav';
   static const _ambientBaseVolume = 0.35;
   static const _ambientDuckVolume = 0.15;
@@ -130,6 +116,7 @@ class _ArrivalCutsceneState extends State<ArrivalCutscene> {
     _ambientDuckFadeTimer?.cancel();
     _ambientLoopTimer?.cancel();
     _ambientLoopFadeTimer?.cancel();
+    _consolePulseTimer?.cancel();
     _voPlayer.dispose();
     _sfx.dispose();
     _ambient.dispose();
@@ -387,6 +374,12 @@ class _ArrivalCutsceneState extends State<ArrivalCutscene> {
       debugPrint('Unknown effect key: $key');
       return;
     }
+
+    if (key == 'console_pulse') {
+      _runConsolePulse();
+      return;
+    }
+
     setState(() => _activeEffects.add(key));
 
     final duration = _effectDurations[key];
@@ -396,6 +389,36 @@ class _ArrivalCutsceneState extends State<ArrivalCutscene> {
         setState(() => _activeEffects.remove(key));
       });
     }
+  }
+
+  // Three amber flickers at 200ms intervals — on/off/on/off/on/off
+  void _runConsolePulse() {
+    _consolePulseTimer?.cancel();
+    _consolePulseStep = 0;
+
+    _consolePulseTimer = Timer.periodic(
+      const Duration(milliseconds: 200),
+      (timer) {
+        if (!mounted) {
+          timer.cancel();
+          return;
+        }
+        _consolePulseStep++;
+        final isOn = _consolePulseStep.isOdd;
+        setState(() {
+          if (isOn) {
+            _activeEffects.add('console_pulse');
+          } else {
+            _activeEffects.remove('console_pulse');
+          }
+        });
+        // 6 steps = 3 on + 3 off = done
+        if (_consolePulseStep >= 6) {
+          timer.cancel();
+          setState(() => _activeEffects.remove('console_pulse'));
+        }
+      },
+    );
   }
 
   @override
@@ -408,9 +431,11 @@ class _ArrivalCutsceneState extends State<ArrivalCutscene> {
         body: Stack(
           fit: StackFit.expand,
           children: [
+            // ── Current panel ─────────────────────────────────────────────
             if (_currentPanel != null)
               Image.asset(_currentPanel!, fit: BoxFit.cover),
 
+            // ── Incoming panel crossfade ───────────────────────────────────
             if (_incomingPanel != null)
               AnimatedOpacity(
                 opacity: _incomingOpacity,
@@ -419,9 +444,11 @@ class _ArrivalCutsceneState extends State<ArrivalCutscene> {
                 child: Image.asset(_incomingPanel!, fit: BoxFit.cover),
               ),
 
+            // ── Glitch flash ──────────────────────────────────────────────
             if (_activeEffects.contains('glitch'))
               Container(color: Colors.white.withValues(alpha: 0.15)),
 
+            // ── Lights up — room-wide amber bloom ─────────────────────────
             if (_activeEffects.contains('lights_up'))
               TweenAnimationBuilder<double>(
                 tween: Tween<double>(begin: 0.0, end: 0.35),
@@ -436,6 +463,31 @@ class _ArrivalCutsceneState extends State<ArrivalCutscene> {
                 },
               ),
 
+            // ── Console pulse — localized amber glow at bottom of screen ──
+            if (_activeEffects.contains('console_pulse'))
+              IgnorePointer(
+                child: Align(
+                  alignment: Alignment.bottomCenter,
+                  child: FractionallySizedBox(
+                    heightFactor: 0.35, // bottom third — where console sits
+                    widthFactor: 1.0,
+                    child: Container(
+                      decoration: const BoxDecoration(
+                        gradient: LinearGradient(
+                          begin: Alignment.bottomCenter,
+                          end: Alignment.topCenter,
+                          colors: [
+                            Color(0x55FFC869), // amber at base
+                            Color(0x00FFC869), // transparent at top
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+
+            // ── Dialogue box ──────────────────────────────────────────────
             if (_currentBeat.text != null)
               Positioned(
                 left: 0,
@@ -447,6 +499,7 @@ class _ArrivalCutsceneState extends State<ArrivalCutscene> {
                 ),
               ),
 
+            // ── Tap prompt ────────────────────────────────────────────────
             if (_phase == _BeatPhase.waitingForTap &&
                 _currentBeat.waitForTap &&
                 _currentBeat.text != null)

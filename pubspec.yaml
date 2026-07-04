@@ -36,6 +36,7 @@ flutter:
     - assets/audio/vo/vo_03_dont_know.mp3
     - assets/audio/vo/vo_04_not_whole.mp3
     - assets/audio/vo/vo_05_something.mp3
+    - assets/audio/vo/vo_06_pieces.mp3
     - assets/audio/sfx/amb_hub_drone.wav
     - assets/audio/sfx/sfx_whine.mp3
     - assets/audio/sfx/sfx_smoke_crackle.mp3

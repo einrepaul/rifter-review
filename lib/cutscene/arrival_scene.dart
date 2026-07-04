@@ -78,5 +78,18 @@ const List<CutsceneBeat> arrivalScene = [
     effectKey: 'lights_up',
   ),
 
+  CutsceneBeat(
+    type: BeatType.dialogue,
+    speaker: 'RIFTER',
+    text: 'So. Pieces to find. Best get started.',
+    voKey: 'vo_06_pieces',
+  ),
+
+  CutsceneBeat(
+    type: BeatType.effect,
+    durationMs: 1000,
+    effectKey: 'console_pulse',
+  ),
+
   CutsceneBeat(type: BeatType.handoff, durationMs: 800),
 ];

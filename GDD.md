@@ -118,6 +118,11 @@ Transitions reuse the glitch-flicker motif from the intro cutscene.
 ## 4.4 Depth layering note (open)
 The hub background is a single flat `SpriteComponent`. The rifter sprite renders above the light beam in the painting — visually incorrect but acceptable for pilot. Phase 4 polish: split painting into bg + fg layers, render rifter between them.
 
+## 4.5 Console as natural focal point (design lock)
+After the cutscene handoff, no tutorial prompt or waypoint directs the player to the console. The rifter walks to it by **instinct** — this is his ship, and approaching the console is muscle memory even before full memory returns. This is the partial amnesia playing out in behavior, not just dialogue.
+
+The console is the hub's only active light source in Hub State 0 (Fractured). The player's eye goes there naturally. The rifter's final cutscene line — "So. Pieces to find. Best get started." — implies forward motion without pointing anywhere specific. The `console_pulse` effect (amber/teal flicker on the console immediately after `lights_up`) reinforces the destination visually without breaking immersion with a UI prompt.
+
 ---
 
 # 5. Intro Cutscene — "Arrival"
